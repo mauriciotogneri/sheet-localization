@@ -6,7 +6,7 @@ Easy localization management tool using **Google Spreadsheets**.
 * [Features](README.md#features)
 * [Formats supported](README.md#formats-supported)
 * [Installation](README.md#installation)
-* [Cell format](README.md#cell-format)
+* [Constraints](README.md#constraints)
 * [Import](README.md#import)
 * [Export](README.md#export)
 * [Best practices](README.md#best-practices)
@@ -34,7 +34,7 @@ Easy localization management tool using **Google Spreadsheets**.
 |-------------|-------------------------------------------|--------------------------------------|
 | hello.world | Hello, world!                             | Hola, mundo!                         |
 | welcome     | Welcome, {1$s}!                           | Bienvenido, {1$s}!                   |
-| total_cost  | The total cost is: {1$s}                  | El coste total es: {1$s}             |
+| total_cost  | The total cost is: {1$f}                  | El coste total es: {1$f}             |
 | appointment | Your appointment is on ${1$s} at {2$s}    | Su cita es el {1$s} a las {2$s}      |
 
 3. Open the script editor: **Tools ⟶ Script editor**
@@ -43,7 +43,10 @@ Easy localization management tool using **Google Spreadsheets**.
 6. Reload the Spreadsheet in the browser (the *script editor* will close automatically as a result)
 7. Check that a new menu entry (**Localization**) appeared in the toolbar
 
-## Cell format
+## Constraints
+
+#### Sheet
+* The first sheet must contain the keys and segments
 
 #### Keys
 * Cannot be empty
@@ -54,20 +57,20 @@ Easy localization management tool using **Google Spreadsheets**.
 * Can be empty (i.e. untranslated)
 * Headers must have the following pattern: `Name (locale)`. For example: `English (en)`
 
-#### Segment parameters
+#### Parameters
 Parameters inside of segments must be declared as `{index$format}`, where:
 * `index`: the position of the parameter in the text (starting from 1)
 * `format`: the format of the parameter
-
-For example:
-* `Welcome, {1$s}!`
-* `You have {1$d} emails`
-* `The price is: {1$f} USD`
 
 Formats available:
 * `s` (string)
 * `d` (integer)
 * `f` (decimal)
+
+For example:
+* `Welcome, {1$s}!`
+* `You have {1$d} emails`
+* `The price is: {1$f} USD`
 
 ## Import
 
@@ -81,6 +84,13 @@ Formats available:
 2. Change the values of the variables `LOCALE` and `FORMAT` to adapt to your needs
 3. Click on **Localization ⟶ Info** to obtain the values of `URL` and `Token`
 4. Run the script to download the localization file
+
+Formats available:
+* `android`
+* `ios`
+* `json`
+* `yaml`
+* `xliff`
 
 ## Best practices
 * Use a separate spreadsheet per project
