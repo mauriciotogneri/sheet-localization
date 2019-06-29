@@ -78,8 +78,9 @@ For example:
 
 1. Click on **Localization ⟶ Import**
 2. Select the language and format of the input
-3. If **Replace values** is enabled, the content will be replaced if the keys match
+3. If **replace values** is enabled, the content will be replaced if the keys match
 4. Paste the content of the file in the input field
+5. Click on **Import**
 
 ## Export
 
