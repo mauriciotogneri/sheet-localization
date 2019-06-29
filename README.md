@@ -2,11 +2,16 @@
 
 Easy localization management tool using **Google Spreadsheets**.
 
+## Table of contents
+* [Features](README.md#features)
+* [Formats supported](README.md#formats-supported)
+
 ## Features
 * Free
 * Easy to setup
+* Scalable
+* Multi-user
 * Customizable UI
-* Easy to create, edit and delete languages and segments
 * Version history built-in
 
 ## Formats supported
@@ -15,11 +20,6 @@ Easy localization management tool using **Google Spreadsheets**.
 * JSON (plain)
 * YAML (plain)
 * XLIFF (v1.2)
-
-## Best practices
-* Use a separate spreadsheet per project
-* Change the background color of a cell to indicate if the segment has been translated or not
-* Limit the access to columns only to users that should edit them
 
 ## Installation
 1. Create an empty [Google Spreadsheet](https://www.google.com/sheets/about)
@@ -74,6 +74,11 @@ Formats available:
 1. Download the file [pull.sh](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/pull.sh)
 2. Change the values of the variables `LOCALE` and `FORMAT` to adapt to your needs
 3. Click on **Localization ⟶ Info** to obtain the values of `URL` and `Token`
+
+## Best practices
+* Use a separate spreadsheet per project
+* Change the background color of a cell to indicate if the segment has been translated or not
+* Limit the access to columns only to users that should edit them
 
 ## TODO
 * Flag to replace values when importing a file
