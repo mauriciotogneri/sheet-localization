@@ -5,6 +5,11 @@ Easy localization management tool using **Google Spreadsheets**.
 ## Table of contents
 * [Features](README.md#features)
 * [Formats supported](README.md#formats-supported)
+* [Installation](README.md#installation)
+* [Cell format](README.md#cell-format)
+* [Import](README.md#import)
+* [Export](README.md#export)
+* [Best practices](README.md#best-practices)
 
 ## Features
 * Free
