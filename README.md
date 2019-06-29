@@ -102,7 +102,6 @@ Formats available:
 * Limit the access to columns only to users that should edit them
 
 ## TODO
-* Flag to replace values when importing a file
 * Support more formats:
 	- INI
 	- Properties
