@@ -6,7 +6,7 @@ function onOpen()
   SpreadsheetApp.getUi().createMenu('Localization')
       .addItem('Import', 'selectLocale')
       .addItem('Info', 'showInfo')
-      .addToUi();
+      .addToUi()
 }
 
 function selectLocale()
@@ -114,15 +114,62 @@ function Language(input, columnIndex)
   this.locale = this.locale.substring(0, this.locale.length - 1)
   this.columnIndex = columnIndex
   
+  var keyRow = function(key)
+  {
+    const data  = getValues()
+    
+    for (var i = 1; i < data.length; i++)
+    {
+      if (key == data[i][0])
+      {
+        return (i + 1)
+      }
+    }
+    
+    return -1
+  }
+  
   this.import = function(json)
   {
-    // TODO
+    const sheet = getSheet()
+    
+    for (var key in json)
+    {
+      if (json.hasOwnProperty(key))
+      {
+        var row = keyRow(key)
+        
+        if (row != -1)
+        {
+          var cell = sheet.getRange(row, this.columnIndex)
+          cell.setValue(json[key])
+        }
+        else
+        {
+          const newRow = [key]
+          const languages = getAvailableLanguages()
+          
+          for (var i = 1; i <= languages.length; i++)
+          {
+            if ((i + 1) == this.columnIndex)
+            {
+              newRow[i] = json[key]
+            }
+            else
+            {
+              newRow[i] = ''
+            }
+          }
+          
+          sheet.appendRow(newRow)
+        }
+      }
+    }
   }
   
   this.export = function()
   {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0]
-    const data  = sheet.getDataRange().getValues()
+    const data  = getValues()
     const json  = {}
     
     for (var i = 1; i < data.length; i++)
@@ -279,11 +326,7 @@ function XliffProvider()
 
 function getProvider(format)
 {
-  if (format == 'json')
-  {
-    return new JsonProvider()
-  }
-  else if (format == 'android')
+  if (format == 'android')
   {
     return new AndroidProvider()
   }
@@ -291,9 +334,21 @@ function getProvider(format)
   {
     return new iOSProvider()
   }
+  else if (format == 'json')
+  {
+    return new JsonProvider()
+  }
+  else if (format == 'yaml')
+  {
+    return new YamlProvider()
+  }
+  else if (format == 'xliff')
+  {
+    return new XliffProvider()
+  }
   else
   {
-    throw 'Unknown provider: ' + format
+    throw 'Invalid format: ' + format
   }
 }
 
@@ -327,16 +382,14 @@ function getLanguage(locale)
 
 function getAvailableLanguages()
 {
-    const sheet  = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0]
-    const header = sheet.getDataRange().getValues()[0]
-  
+    const header = getValues()[0]
     const result = []
     
     for (var i = 1; i < header.length; i++)
     {
         var cell = header[i]
         
-        result.push(new Language(cell, i))
+        result.push(new Language(cell, (i + 1)))
     }
   
     return result
@@ -352,6 +405,16 @@ function getIndexedList(values)
   }
   
   return result.join('\n')
+}
+
+function getSheet()
+{
+  return SpreadsheetApp.getActiveSpreadsheet().getSheets()[0]
+}
+
+function getValues()
+{
+  return getSheet().getDataRange().getValues()
 }
 
 // =========================================== TOKEN =========================================== \\

@@ -32,8 +32,8 @@ Easy localization management tool using **Google Spreadsheets**.
 
 | Keys        | English (en)                              | Spanish (es)                         |
 |-------------|-------------------------------------------|--------------------------------------|
-| hello.world | Hello, world!                             | Hola, mundo!                         |
-| welcome     | Welcome, {1$s}!                           | Bienvenido, {1$s}!                   |
+| hello.world | Hello, world!                             | ¡Hola, mundo!                        |
+| welcome     | Welcome, {1$s}!                           | ¡Bienvenido, {1$s}!                  |
 | total_cost  | The total cost is: {1$f}                  | El coste total es: {1$f}             |
 | appointment | Your appointment is on ${1$s} at {2$s}    | Su cita es el {1$s} a las {2$s}      |
 
