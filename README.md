@@ -33,14 +33,14 @@ Easy localization management tool using **Google Spreadsheets**.
 | Keys        | English (en)                              | Spanish (es)                         |
 |-------------|-------------------------------------------|--------------------------------------|
 | hello.world | Hello, world!                             | Hola, mundo!                         |
-| welcome     | Welcome, ${name}!                         | Bienvenido, ${nombre}!               |
-| total_cost  | The total cost is: ${cost}                | El coste total es: ${coste}          |
-| appointment | Your appointment is on ${date} at ${time} | Su cita es el ${fecha} a las ${hora} |
+| welcome     | Welcome, {1$s}!                           | Bienvenido, {1$s}!                   |
+| total_cost  | The total cost is: {1$s}                  | El coste total es: {1$s}             |
+| appointment | Your appointment is on ${1$s} at {2$s}    | Su cita es el {1$s} a las {2$s}      |
 
-3. Open the script editor: **Tools** ⟶ **Script editor**
-4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file in the Script editor
+3. Open the script editor: **Tools ⟶ Script editor**
+4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file in the *script editor*
 5. In the last line of the script, edit the function `getToken()` and add your own [randomly generated](https://www.uuidgenerator.net) token
-6. Reload the Spreadsheet in the browser (the Script editor will close automatically as a result)
+6. Reload the Spreadsheet in the browser (the *script editor* will close automatically as a result)
 7. Check that a new menu entry (**Localization**) appeared in the toolbar
 
 ## Cell format
@@ -48,20 +48,21 @@ Easy localization management tool using **Google Spreadsheets**.
 #### Keys
 * Cannot be empty
 * Must start with a letter
-* Each key must be unique
+* Must be unique
 
 #### Segments
-* Can be empty
+* Can be empty (i.e. untranslated)
 * Headers must have the following pattern: `Name (locale)`. For example: `English (en)`
 
 #### Segment parameters
-Parameters inside of segments must be declared as `{{index$format}}`, where:
+Parameters inside of segments must be declared as `{index$format}`, where:
 * `index`: the position of the parameter in the text (starting from 1)
 * `format`: the format of the parameter
 
 For example:
-* `You have {{1$d}} emails`
-* `Welcome, {{1$s}}!`
+* `Welcome, {1$s}!`
+* `You have {1$d} emails`
+* `The price is: {1$f} USD`
 
 Formats available:
 * `s` (string)
@@ -79,6 +80,7 @@ Formats available:
 1. Download the file [pull.sh](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/pull.sh)
 2. Change the values of the variables `LOCALE` and `FORMAT` to adapt to your needs
 3. Click on **Localization ⟶ Info** to obtain the values of `URL` and `Token`
+4. Run the script to download the localization file
 
 ## Best practices
 * Use a separate spreadsheet per project
