@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target='_top'>
+    <style>
+      html *
+      {
+        font-family: Arial;
+      }
+    </style>
+    <script>
+      function onImport()
+      {
+        const locale  = document.getElementById('locale')
+        const format  = document.getElementById('format')
+        const input   = document.getElementById('input').value
+        const replace = document.getElementById('replace').checked
+        
+        const language = locale.options[locale.selectedIndex].value
+        const provider = format.options[format.selectedIndex].value
+        
+        if (input != '')
+        {
+          google.script.run.withSuccessHandler(onImportCompleted).withFailureHandler(onFailure).performImport(language, provider, input, replace)
+        }
+        else
+        {
+          alert('Input cannot be empty')
+        }
+      }
+      
+      function onImportCompleted(result)
+      {
+        google.script.host.close()
+      }
+    
+      function onFailure(error)
+      {
+        const div = document.getElementById('output')
+        div.innerHTML = 'ERROR: ' + error.message
+      }
+      
+      function onLanguagesLoaded(languages)
+      {
+        const select = document.getElementById('locale')
+        
+        for (var i = 0; i < languages.length; i++)
+        {
+          var language = languages[i]
+        
+          var option = document.createElement('option')
+          option.appendChild(document.createTextNode(language.name))
+          option.value = i
+          
+          select.appendChild(option)
+        }
+      }
+      
+      function onProvidersLoaded(providers)
+      {
+        const select = document.getElementById('format')
+        
+        for (var i = 0; i < providers.length; i++)
+        {
+          var provider = providers[i]
+        
+          var option = document.createElement('option')
+          option.appendChild(document.createTextNode(provider.name))
+          option.value = i
+          
+          select.appendChild(option)
+        }
+      }
+
+      google.script.run
+        .withSuccessHandler(onLanguagesLoaded)
+        .withFailureHandler(onFailure)
+        .getAvailableLanguages()
+        
+      google.script.run
+        .withSuccessHandler(onProvidersLoaded)
+        .withFailureHandler(onFailure)
+        .getAvailableProviders()
+        
+    </script>
+  </head>
+  <body>
+    Language:
+    <select id='locale'>
+    </select>
+    
+    <br/>
+    <br/>
+    
+    Format:
+    <select id='format'>
+    </select>
+    
+    <br/>
+    <br/>
+    
+    Replace values:
+    <input type='checkbox' id='replace' checked>
+    
+    <br/>
+    <br/>
+    
+    Input:
+    <br/>
+    <textarea id='input' rows='3'></textarea>
+    
+    <br/>
+    <br/>
+    
+    <button type='button' onclick='onImport()'>Import</button>
+    
+    <br/>
+    <div id='output'></div>
+  </body>
+</html>

@@ -4,76 +4,29 @@
 function onOpen()
 {
   SpreadsheetApp.getUi().createMenu('Localization')
-      .addItem('Import', 'selectLocale')
-      .addItem('Info', 'showInfo')
-      .addToUi()
+    .addItem('Import', 'showImportDialog')
+    .addItem('Info', 'showInfo')
+    .addToUi()
 }
 
-function selectLocale()
+function showImportDialog()
+{
+  const output = HtmlService
+    .createTemplateFromFile('import')
+    .evaluate()
+  
+  SpreadsheetApp.getUi().showModalDialog(output, 'Import')
+}
+
+function performImport(languageIndex, providerIndex, content, replace)
 {
   const languages = getAvailableLanguages()
-  const locales = languages.map(function(e) { return e.name })
-  const ui = SpreadsheetApp.getUi()
-  const response = ui.prompt('Select language', getIndexedList(locales) + '\n\n', ui.ButtonSet.OK_CANCEL)
-
-  if (response.getSelectedButton() == ui.Button.OK)
-  {
-    const index = parseInt(response.getResponseText())
-    
-    if ((index >= 1) && (index <= locales.length))
-    {
-      selectFormat(languages[index - 1])
-    }
-    else 
-    {
-      ui.alert('Invalid index: ' + index)
-    }
-  }
-}
-
-function selectFormat(language)
-{
   const providers = getAvailableProviders()
-  const formats = providers.map(function(e) { return e.name })
-  const ui = SpreadsheetApp.getUi()
-  const response = ui.prompt('Select format', getIndexedList(formats) + '\n\n', ui.ButtonSet.OK_CANCEL)
-
-  if (response.getSelectedButton() == ui.Button.OK)
-  {
-    const index = parseInt(response.getResponseText())
-    
-    if ((index >= 1) && (index <= formats.length))
-    {
-      selectContent(language, providers[index - 1])
-    }
-    else 
-    {
-      ui.alert('Invalid index: ' + index)
-    }
-  }
-}
-
-function selectContent(language, provider)
-{
-  const ui = SpreadsheetApp.getUi()
-  const response = ui.prompt('Enter content', '', ui.ButtonSet.OK_CANCEL)
-
-  if (response.getSelectedButton() == ui.Button.OK)
-  {
-    const content = response.getResponseText()
-    
-    if (content != '')
-    {
-      const json = provider.import(content)
-      language.import(json)
-      
-      ui.alert('Import completed', '', ui.ButtonSet.OK)
-    }
-    else 
-    {
-      ui.alert('Invalid content: ' + content)
-    }
-  }
+  
+  const json = providers[providerIndex].import(content)
+  languages[languageIndex].import(json, replace)
+  
+  return true
 }
 
 function showInfo()
@@ -129,7 +82,7 @@ function Language(input, columnIndex)
     return -1
   }
   
-  this.import = function(json)
+  this.import = function(json, replace)
   {
     const sheet = getSheet()
     
@@ -141,8 +94,11 @@ function Language(input, columnIndex)
         
         if (row != -1)
         {
-          var cell = sheet.getRange(row, this.columnIndex)
-          cell.setValue(json[key])
+          if (replace)
+          {
+            var cell = sheet.getRange(row, this.columnIndex)
+            cell.setValue(json[key])
+          }
         }
         else
         {
