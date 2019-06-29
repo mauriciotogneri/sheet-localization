@@ -37,7 +37,7 @@ Easy localization management tool using **Google Spreadsheets**.
 | total_cost  | The total cost is: ${cost}                | El coste total es: ${coste}          |
 | appointment | Your appointment is on ${date} at ${time} | Su cita es el ${fecha} a las ${hora} |
 
-3. Open the script editor: **Tools ⟶ Script editor**
+3. Open the script editor: **Tools** ⟶ **Script editor**
 4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file in the Script editor
 5. In the last line of the script, edit the function `getToken()` and add your own [randomly generated](https://www.uuidgenerator.net) token
 6. Reload the Spreadsheet in the browser (the Script editor will close automatically as a result)
