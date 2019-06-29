@@ -27,40 +27,56 @@ Easy localization management tool using **Google Spreadsheets**.
 
 | Keys        | English (en)                              | Spanish (es)                         |
 |-------------|-------------------------------------------|--------------------------------------|
-| greeting    | Hello, world!                             | Hola, mundo!                         |
-| good.bye    | Bye ${name}                               | Adios ${nombre}                      |
+| hello.world | Hello, world!                             | Hola, mundo!                         |
+| welcome     | Welcome, ${name}!                         | Bienvenido, ${nombre}!               |
 | total_cost  | The total cost is: ${cost}                | El coste total es: ${coste}          |
 | appointment | Your appointment is on ${date} at ${time} | Su cita es el ${fecha} a las ${hora} |
 
 3. Open the script editor: **Tools ⟶ Script editor**
 4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file in the Script editor
-5. Reload the Spreadsheet in the browser (the Script editor will close automatically as a result)
-6. Check that a new menu entry (**Localization**) appeared in the toolbar
+5. In the last line of the script, edit the function `getToken()` and add your own [randomly generated](https://www.uuidgenerator.net) token
+6. Reload the Spreadsheet in the browser (the Script editor will close automatically as a result)
+7. Check that a new menu entry (**Localization**) appeared in the toolbar
 
 ## Cell format
 
-### Keys
+#### Keys
 * Cannot be empty
+* Must start with a letter
 * Each key must be unique
 
-#### Translations
+#### Segments
 * Can be empty
+* Headers must have the following pattern: `Name (locale)`. For example: `English (en)`
 
-##### Translation parameters
-Parameters inside of translations can be declared as `{{index$format}}`. Where:
-* index: the position of the parameter in the text (starting from 1)
-* format: the format of the parameter
+#### Segment parameters
+Parameters inside of segments must be declared as `{{index$format}}`, where:
+* `index`: the position of the parameter in the text (starting from 1)
+* `format`: the format of the parameter
 
 For example:
 * `You have {{1$d}} emails`
 * `Welcome, {{1$s}}!`
 
 Formats available:
-* s (string)
-* d (integer)
-* f (decimal)
+* `s` (string)
+* `d` (integer)
+* `f` (decimal)
+
+## Import
+
+1. Click on **Localization ⟶ Import**
+2. Enter the language and format of the input file
+3. In the last step, copy the contests of the file and paste it into the field
+
+## Export
+
+1. Download the file [pull.sh](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/pull.sh)
+2. Change the values of the variables `LOCALE` and `FORMAT` to adapt to your needs
+3. Click on **Localization ⟶ Info** to obtain the values of `URL` and `Token`
 
 ## TODO
+* Flag to replace values when importing a file
 * Support more formats:
 	- INI
 	- Properties

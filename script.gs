@@ -104,11 +104,6 @@ function doGet(request)
   }
 }
 
-function getToken()
-{
-  return '990a86c9-bca3-4821-b1af-bbc5de73f3e3'
-}
-
 // =========================================== LANGUAGE =========================================== \\
 
 function Language(input, columnIndex)
@@ -357,4 +352,11 @@ function getIndexedList(values)
   }
   
   return result.join('\n')
+}
+
+// =========================================== TOKEN =========================================== \\
+
+function getToken()
+{
+  return ''
 }
