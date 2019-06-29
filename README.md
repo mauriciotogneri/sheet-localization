@@ -25,8 +25,6 @@ Easy localization management tool using **Google Spreadsheets**.
 1. Create an empty [Google Spreadsheet](https://www.google.com/sheets/about)
 2. Create a column for the keys and at least one language column. For example:
 
-![Example](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/screenshots/example.png "Example")
-
 | Keys        | English (en)                              | Spanish (es)                         |
 |-------------|-------------------------------------------|--------------------------------------|
 | greeting    | Hello, world!                             | Hola, mundo!                         |
@@ -39,15 +37,14 @@ Easy localization management tool using **Google Spreadsheets**.
 5. Reload the Spreadsheet in the browser (the Script editor will close automatically as a result)
 6. Check that a new menu entry (**Localization**) appeared in the toolbar
 
-## Tutorial
+## Cell format
 
-##### Keys
-* cannot be empty
-* each key must be unique
+### Keys
+* Cannot be empty
+* Each key must be unique
 
-##### Translations
-* can be empty
-* can be marked as validated
+#### Translations
+* Can be empty
 
 ##### Translation parameters
 Parameters inside of translations can be declared as `{{index$format}}`. Where:
