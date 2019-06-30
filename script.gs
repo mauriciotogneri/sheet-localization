@@ -102,8 +102,8 @@ function Language(input, columnIndex)
         }
         else
         {
-          const newRow = [key]
-          const languages = getAvailableLanguages()
+          var newRow = [key]
+          var languages = getAvailableLanguages()
           
           for (var i = 1; i <= languages.length; i++)
           {

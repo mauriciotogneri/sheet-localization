@@ -13,15 +13,24 @@
       {
         const locale  = document.getElementById('locale')
         const format  = document.getElementById('format')
-        const input   = document.getElementById('input').value
-        const replace = document.getElementById('replace').checked
+        const input   = document.getElementById('input')
+        const replace = document.getElementById('replace')
         
         const language = locale.options[locale.selectedIndex].value
         const provider = format.options[format.selectedIndex].value
         
         if (input != '')
         {
-          google.script.run.withSuccessHandler(onImportCompleted).withFailureHandler(onFailure).performImport(language, provider, input, replace)
+          locale.disabled  = true
+          format.disabled  = true
+          input.disabled   = true
+          replace.disabled = true
+        
+          const submit     = document.getElementById('submit')
+          submit.innerHTML = 'Uploading…'
+          submit.disabled  = true
+          
+          google.script.run.withSuccessHandler(onImportCompleted).withFailureHandler(onFailure).performImport(language, provider, input.value, replace.checked)
         }
         else
         {
@@ -112,7 +121,7 @@
     <br/>
     <br/>
     
-    <button type='button' onclick='onImport()'>Import</button>
+    <button type='button' id='submit' onclick='onImport()'>Import</button>
     
     <br/>
     <div id='output'></div>
