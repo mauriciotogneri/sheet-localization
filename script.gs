@@ -133,7 +133,7 @@ function Language(input, columnIndex)
       var key   = data[i][0]
       var value = data[i][this.columnIndex - 1]
       
-      json[key] = value
+      json[key] = value.toString()
     }
     
     return json
