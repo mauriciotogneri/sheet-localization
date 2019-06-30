@@ -38,7 +38,7 @@ Easy localization management tool using **Google Spreadsheets**.
 | appointment | Your appointment is on {1$s} at {2$s}     | Su cita es el {1$s} a las {2$s}      |
 
 3. Open the script editor: **Tools ⟶ Script editor**
-4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file in the *script editor*
+4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file (usually named *Code.gs*) in the *script editor*
 5. In the last line of the script, edit the function `getToken()` and add your own [randomly generated](https://www.uuidgenerator.net) token
 6. In the *script editor*, create a new HTML file by clicking on **File ⟶ New ⟶ HTML file**
 7. Copy the contents of [import.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/import.html) and paste it in the newly created file
