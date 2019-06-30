@@ -131,7 +131,7 @@ function Language(input, columnIndex)
     for (var i = 1; i < data.length; i++)
     {
       var key   = data[i][0]
-      var value = data[i][this.columnIndex]
+      var value = data[i][this.columnIndex - 1]
       
       json[key] = value
     }
@@ -209,22 +209,30 @@ function JsonProvider()
   
   this.export = function(json)
   {
-    var result = ''
-    
     for (var key in json)
     {
       if (json.hasOwnProperty(key))
       {
-        if (result != '')
-        {
-          result += ','
-        }
-        
-        result += '\n\t"' + key + '": "' + json[key] + '"'
+        json[key] = transformParameters(json[key])
       }
     }
     
-    return '{' + result + '\n}'
+    return JSON.stringify(json, null, 4)
+  }
+
+  var transformParameters = function(value)
+  {
+	var result  = value
+	var REGEX   = /{([0-9]+)\$([sdf])}/
+	var match   = null
+    var counter = 1
+
+	while (match = REGEX.exec(result))
+	{
+      result = result.replace(REGEX, '%' + match[1] + '$' + match[2])
+	}
+
+	return result
   }
 }
 
