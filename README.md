@@ -30,9 +30,9 @@ Easy localization management tool using **Google Spreadsheets**.
 1. Create an empty [Google Spreadsheet](https://www.google.com/sheets/about)
 2. Create a column for the keys and at least one language column. For example:
 
-|   | A    | B            |
-|---|------|--------------|
-| 1 | Keys | English (en) |
+|       | A    | B            |
+|-------|------|--------------|
+| **1** | Keys | English (en) |
 
 3. Open the script editor: **Tools ⟶ Script editor**
 4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file (usually named *Code.gs*) in the *script editor*
