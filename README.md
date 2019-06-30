@@ -73,18 +73,13 @@ Formats available:
 * `d` (integer)
 * `f` (decimal)
 
-For example:
-* `Welcome, {1$s}!`
-* `You have {1$d} emails`
-* `The price is: {1$f} USD`
-
 #### Example of localization table
 
 | Keys        | English (en)                              | Spanish (es)                         |
 |-------------|-------------------------------------------|--------------------------------------|
 | hello.world | Hello, world!                             | ¡Hola, mundo!                        |
 | welcome     | Welcome, {1$s}!                           | ¡Bienvenido, {1$s}!                  |
-| total_cost  | The total cost is: {1$f}                  | El coste total es: {1$f}             |
+| total_cost  | The total cost is: {1$f} USD              | El coste total es: {1$f} USD         |
 | appointment | Your appointment is on {1$s} at {2$s}     | Su cita es el {1$s} a las {2$s}      |
 
 ## Import
