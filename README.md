@@ -40,7 +40,7 @@ Easy localization management tool using **Google Spreadsheets**.
 3. Open the script editor: **Tools ⟶ Script editor**
 4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file (usually named *Code.gs*) in the *script editor*
 5. In the last line of the script, edit the function `getToken()` and add your own [randomly generated](https://www.uuidgenerator.net) token
-6. In the *script editor*, create a new HTML file by clicking on **File ⟶ New ⟶ HTML file**
+6. In the *script editor*, create a new HTML file by clicking on **File ⟶ New ⟶ HTML file** and call it *import* (without extension)
 7. Copy the contents of [import.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/import.html) and paste it in the newly created file
 8. Reload the Spreadsheet in the browser (the *script editor* will close automatically as a result)
 9. Check that a new menu entry (**Localization**) appeared in the toolbar
