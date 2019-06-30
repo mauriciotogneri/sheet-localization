@@ -57,6 +57,7 @@ Easy localization management tool using **Google Spreadsheets**.
 * Cannot be empty
 * Must start with a letter
 * Must be unique
+* The header can have any text
 
 #### Segments
 * Can be empty (i.e. untranslated)
