@@ -35,7 +35,7 @@ Easy localization management tool using **Google Spreadsheets**.
 | hello.world | Hello, world!                             | ¡Hola, mundo!                        |
 | welcome     | Welcome, {1$s}!                           | ¡Bienvenido, {1$s}!                  |
 | total_cost  | The total cost is: {1$f}                  | El coste total es: {1$f}             |
-| appointment | Your appointment is on ${1$s} at {2$s}    | Su cita es el {1$s} a las {2$s}      |
+| appointment | Your appointment is on {1$s} at {2$s}     | Su cita es el {1$s} a las {2$s}      |
 
 3. Open the script editor: **Tools ⟶ Script editor**
 4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file in the *script editor*
