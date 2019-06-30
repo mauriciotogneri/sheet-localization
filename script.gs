@@ -51,7 +51,7 @@ function doGet(request)
     const output = ContentService.createTextOutput()
     output.setMimeType(provider.mimeType)
     output.downloadAsFile(provider.fileName(locale))
-    output.setContent(provider.export(language.export()))
+    output.setContent(provider.export(language.export(), language.locale))
   
     return output
   }
@@ -133,7 +133,7 @@ function Language(input, columnIndex)
       var key   = data[i][0]
       var value = data[i][this.columnIndex - 1]
       
-      json[key] = value.toString()
+      json[key.toString()] = value.toString()
     }
     
     return json
@@ -158,10 +158,22 @@ function AndroidProvider()
     return {}
   }
   
-  this.export = function(json)
+  this.export = function(json, locale)
   {
-    // TODO
-    return ''
+    var result = '<?xml version="1.0" encoding="utf-8"?>\n'
+    result += '<resources>'
+    
+    for (var key in json)
+    {
+      if (json.hasOwnProperty(key))
+      {
+        result += '\n\n\t<string name="' + key + '">' + transformParametersDefault(json[key]) + '</string>'
+      }
+    }
+    
+    result += '\n\n</resources>'
+    
+    return result
   }
 }
 
@@ -183,10 +195,24 @@ function iOSProvider()
     return {}
   }
   
-  this.export = function(json)
+  this.export = function(json, locale)
   {
-    // TODO
-    return ''
+    var result = ''
+    
+    for (var key in json)
+    {
+      if (json.hasOwnProperty(key))
+      {
+        if (result != '')
+        {
+          result += '\n\n'
+        }
+        
+        result += '"' + key + '": "' + transformParameters(json[key], function(match) { return '%' + match[1] + '$@' }) + '";'
+      }
+    }
+    
+    return result
   }
 }
 
@@ -207,32 +233,17 @@ function JsonProvider()
     return JSON.parse(input)
   }
   
-  this.export = function(json)
+  this.export = function(json, locale)
   {
     for (var key in json)
     {
       if (json.hasOwnProperty(key))
       {
-        json[key] = transformParameters(json[key])
+        json[key] = transformParametersDefault(json[key])
       }
     }
     
     return JSON.stringify(json, null, 4)
-  }
-
-  var transformParameters = function(value)
-  {
-	var result  = value
-	var REGEX   = /{([0-9]+)\$([sdf])}/
-	var match   = null
-    var counter = 1
-
-	while (match = REGEX.exec(result))
-	{
-      result = result.replace(REGEX, '%' + match[1] + '$' + match[2])
-	}
-
-	return result
   }
 }
 
@@ -254,10 +265,24 @@ function YamlProvider()
     return {}
   }
   
-  this.export = function(json)
+  this.export = function(json, locale)
   {
-    // TODO
-    return ''
+    var result = ''
+    
+    for (var key in json)
+    {
+      if (json.hasOwnProperty(key))
+      {
+        if (result != '')
+        {
+          result += '\n\n'
+        }
+        
+        result += key + ': ' + transformParametersDefault(json[key])
+      }
+    }
+    
+    return result
   }
 }
 
@@ -279,10 +304,31 @@ function XliffProvider()
     return {}
   }
   
-  this.export = function(json)
+  this.export = function(json, locale)
   {
-    // TODO
-    return ''
+    var result = '<?xml version="1.0" encoding="utf-8"?>\n'
+    result += '<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">\n'
+    result += '\t<file original="global" datatype="plaintext" source-language="' + locale + '" target-language="' + locale + '">\n'
+    result += '\t\t<body>\n'
+    
+    for (var key in json)
+    {
+      if (json.hasOwnProperty(key))
+      {
+        var value = transformParametersDefault(json[key])
+        
+        result += '\t\t\t<trans-unit id="' + key + '">\n'
+        result += '\t\t\t\t<source xml:lang="' + locale + '">' + value + '</source>\n'
+        result += '\t\t\t\t<target xml:lang="' + locale + '">' + value + '</target>\n'
+        result += '\t\t\t</trans-unit>\n'
+      }
+    }
+    
+    result += '\t\t</body>\n'
+    result += '\t</file>\n'
+    result += '</xliff>'
+    
+    return result
   }
 }
 
@@ -314,6 +360,26 @@ function getProvider(format)
   {
     throw 'Invalid format: ' + format
   }
+}
+
+function transformParameters(value, transformer)
+{
+  var result  = value
+  var REGEX   = /{([0-9]+)\$([sdf])}/
+  var match   = null
+  var counter = 1
+
+  while (match = REGEX.exec(result))
+  {
+    result = result.replace(REGEX, transformer(match))
+  }
+
+  return result
+}
+
+function transformParametersDefault(value)
+{
+  return transformParameters(value, function(match) { return '%' + match[1] + '$' + match[2] })
 }
 
 function getAvailableProviders()
