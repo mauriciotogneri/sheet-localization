@@ -30,20 +30,17 @@ Easy localization management tool using **Google Spreadsheets**.
 1. Create an empty [Google Spreadsheet](https://www.google.com/sheets/about)
 2. Create a column for the keys and at least one language column. For example:
 
-| Keys        | English (en)                              | Spanish (es)                         |
-|-------------|-------------------------------------------|--------------------------------------|
-| hello.world | Hello, world!                             | ¡Hola, mundo!                        |
-| welcome     | Welcome, {1$s}!                           | ¡Bienvenido, {1$s}!                  |
-| total_cost  | The total cost is: {1$f}                  | El coste total es: {1$f}             |
-| appointment | Your appointment is on {1$s} at {2$s}     | Su cita es el {1$s} a las {2$s}      |
+|   | A    | B            |
+|---|------|--------------|
+| 1 | Keys | English (en) |
 
 3. Open the script editor: **Tools ⟶ Script editor**
 4. Copy the contents of [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs) and paste it inside of the empty file (usually named *Code.gs*) in the *script editor*
 5. In the last line of the script, edit the function `getToken()` and add your own [randomly generated](https://www.uuidgenerator.net) token
 6. In the *script editor*, create a new HTML file by clicking on **File ⟶ New ⟶ HTML file** and call it *import* (without extension)
 7. Copy the contents of [import.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/import.html) and paste it in the newly created file
-8. Deploy the tool by clicking on **Publish ⟶ Deploy as web app...** in the *script editor*
-9. In form, select the following:
+8. Deploy the tool by clicking on **Publish ⟶ Deploy as web app…** in the *script editor*
+9. In the form, select the following values:
 	- **Project version**: *New*
 	- **Execute the app as**: *Me*
 	- **Who has access to the app**: *Anyone, even anonymous*
@@ -79,6 +76,15 @@ For example:
 * `Welcome, {1$s}!`
 * `You have {1$d} emails`
 * `The price is: {1$f} USD`
+
+#### Example of localization table
+
+| Keys        | English (en)                              | Spanish (es)                         |
+|-------------|-------------------------------------------|--------------------------------------|
+| hello.world | Hello, world!                             | ¡Hola, mundo!                        |
+| welcome     | Welcome, {1$s}!                           | ¡Bienvenido, {1$s}!                  |
+| total_cost  | The total cost is: {1$f}                  | El coste total es: {1$f}             |
+| appointment | Your appointment is on {1$s} at {2$s}     | Su cita es el {1$s} a las {2$s}      |
 
 ## Import
 
