@@ -262,11 +262,11 @@ function iOSProvider()
     
     for (var i = 0; i < lines.length; i++)
     {
-      var input = lines[i].trim()
+      var line = lines[i].trim()
 
-      if ((!input.startsWith('/*')) && input.startsWith('"'))
+      if ((line != '') && (!line.startsWith('/*')) && line.startsWith('"'))
       {
-        var parts = input.split('=')
+        var parts = line.split('=')
 		var key   = parts[0].trim().substr(1).slice(0, -1)
 		var value = parts[1].trim().substr(1).slice(0, -2)
 
@@ -343,8 +343,24 @@ function YamlProvider()
   
   this.import = function(input)
   {
-    // TODO
-    return {}
+    const result = {}
+    const lines = input.split('\n')
+    
+    for (var i = 0; i < lines.length; i++)
+    {
+      var line = lines[i].trim()
+
+      if ((line != '') && (!line.startsWith('#')))
+      {
+        var parts = line.split(':')
+		var key   = parts[0].trim()
+		var value = parts[1].trim()
+
+		result[key] = value
+	  }
+    }
+    
+    return result
   }
   
   this.export = function(json, locale)
