@@ -40,7 +40,7 @@ Easy localization management tool using **Google Spreadsheets**.
 5. In the last line of the script, edit the function `getToken()` and add your own [randomly generated](https://www.uuidgenerator.net) token
 6. In the *script editor*, create a new HTML file by clicking on **File ⟶ New ⟶ HTML file** and call it *import* (without extension)
 7. Copy the contents of [import.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/import.html) and paste it in the newly created file
-8. Perform the same with the file [info.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/info.html).
+8. Perform the same operation with the file [info.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/info.html).
 9. Deploy the tool by clicking on **Publish ⟶ Deploy as web app…** in the *script editor*
 10. In the form, select the following values:
 	- **Project version**: *New*
@@ -108,7 +108,7 @@ Formats available:
 
 ## Statistics
 
-The tool can gether some general statistics about the content. To access it, click on **Localization ⟶ Info**. The table shows 2 values for each language:
+The tool can gather some general statistics about the content. To access it, click on **Localization ⟶ Info**. The table shows 2 values for each language:
 * **Translated:** A cell counts as translated if it's not empty
 * **Validated:** A cell counts as validated if its background color is different than `#ffffff`
 
