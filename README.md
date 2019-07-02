@@ -96,7 +96,7 @@ Formats available:
 
 1. Download the file [pull.sh](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/pull.sh)
 2. Change the values of the variables `LOCALE` and `FORMAT` to adapt to your needs
-3. Click on **Localization ⟶ Info** to obtain the values of `URL` and `Token`
+3. Click on **Localization ⟶ Info** to obtain the values of `URL` and `TOKEN`
 4. Run the script to download the localization file
 
 Formats available:
