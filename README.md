@@ -10,7 +10,7 @@ Easy localization management tool using **Google Spreadsheets**.
 * [Import](README.md#import)
 * [Export](README.md#export)
 * [Statistics](README.md#statistics)
-* [Best practices](README.md#best-practices)
+* [Best practices](#best-practices)
 
 ## Features
 * Free
