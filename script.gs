@@ -63,11 +63,11 @@ function getInfo()
       if (value != '')
       {
         translated++
-      }
-      
-      if (background == '#ffffff')
-      {
-        validated++
+          
+        if (background == '#ffffff')
+        {
+          validated++
+        }
       }
       
       total++
@@ -207,8 +207,21 @@ function AndroidProvider()
   
   this.import = function(input)
   {
-    // TODO
-    return {}
+    const document = XmlService.parse(input)
+    const root = document.getRootElement()
+    const entries = root.getChildren()
+    const result = {}
+    
+    for (var i = 0; i < entries.length; i++)
+    {
+      var entry = entries[i] 
+      var key = entry.getAttribute('name').getValue()
+      var value = entry.getValue()
+      
+      result[key] = value
+    }
+        
+    return result
   }
   
   this.export = function(json, locale)
@@ -244,8 +257,24 @@ function iOSProvider()
   
   this.import = function(input)
   {
-    // TODO
-    return {}
+    const result = {}
+    const lines = input.split('\n')
+    
+    for (var i = 0; i < lines.length; i++)
+    {
+      var input = lines[i].trim()
+
+      if ((!input.startsWith('/*')) && input.startsWith('"'))
+      {
+        var parts = input.split('=')
+		var key   = parts[0].trim().substr(1).slice(0, -1)
+		var value = parts[1].trim().substr(1).slice(0, -2)
+
+		result[key] = value
+	  }
+    }
+    
+    return result
   }
   
   this.export = function(json, locale)
@@ -261,7 +290,7 @@ function iOSProvider()
           result += '\n\n'
         }
         
-        result += '"' + key + '": "' + transformParameters(json[key], function(match) { return '%' + match[1] + '$@' }) + '";'
+        result += '"' + key + '" = "' + transformParameters(json[key], function(match) { return '%' + match[1] + '$@' }) + '";'
       }
     }
     
@@ -498,6 +527,15 @@ function getSheet()
 function getValues()
 {
   return getSheet().getDataRange().getValues()
+}
+
+if (!String.prototype.startsWith) {
+    Object.defineProperty(String.prototype, 'startsWith', {
+        value: function(search, pos) {
+            pos = !pos || pos < 0 ? 0 : + pos
+            return this.substring(pos, pos + search.length) === search
+        }
+    })
 }
 
 // =========================================== TOKEN =========================================== \\
