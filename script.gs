@@ -398,8 +398,24 @@ function XliffProvider()
   
   this.import = function(input)
   {
-    // TODO
-    return {}
+    const document = XmlService.parse(input)
+    const root = document.getRootElement()
+    const file = root.getChildren()[0]
+    const body = file.getChildren()[0]
+    const entries = body.getChildren()
+    const result = {}
+    
+    for (var i = 0; i < entries.length; i++)
+    {
+      var entry = entries[i] 
+      var key = entry.getAttribute('id').getValue()
+      var child = entry.getChildren()[0]
+      var value = child.getValue()
+      
+      result[key] = value
+    }
+        
+    return result
   }
   
   this.export = function(json, locale)
