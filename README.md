@@ -3,13 +3,13 @@
 Easy localization management tool using **Google Spreadsheets**.
 
 ## Table of contents
-* [Features](README.md#features)
-* [Formats supported](README.md#formats-supported)
-* [Installation](README.md#installation)
-* [Constraints](README.md#constraints)
-* [Import](README.md#import)
-* [Export](README.md#export)
-* [Statistics](README.md#statistics)
+* [Features](#features)
+* [Formats supported](#formats-supported)
+* [Installation](#installation)
+* [Constraints](#constraints)
+* [Import](#import)
+* [Export](#export)
+* [Statistics](#statistics)
 * [Best practices](#best-practices)
 
 ## Features
