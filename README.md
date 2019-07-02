@@ -9,6 +9,7 @@ Easy localization management tool using **Google Spreadsheets**.
 * [Constraints](README.md#constraints)
 * [Import](README.md#import)
 * [Export](README.md#export)
+* [Statistics](README.md#statistics)
 * [Best practices](README.md#best-practices)
 
 ## Features
@@ -39,19 +40,20 @@ Easy localization management tool using **Google Spreadsheets**.
 5. In the last line of the script, edit the function `getToken()` and add your own [randomly generated](https://www.uuidgenerator.net) token
 6. In the *script editor*, create a new HTML file by clicking on **File ⟶ New ⟶ HTML file** and call it *import* (without extension)
 7. Copy the contents of [import.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/import.html) and paste it in the newly created file
-8. Deploy the tool by clicking on **Publish ⟶ Deploy as web app…** in the *script editor*
-9. In the form, select the following values:
+8. Perform the same with the file [info.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/info.html).
+9. Deploy the tool by clicking on **Publish ⟶ Deploy as web app…** in the *script editor*
+10. In the form, select the following values:
 	- **Project version**: *New*
 	- **Execute the app as**: *Me*
 	- **Who has access to the app**: *Anyone, even anonymous*
-10. Click on **Deploy**
-11. Reload the Spreadsheet in the browser (the *script editor* will close automatically as a result)
-12. Check that a new menu entry (**Localization**) appeared in the toolbar
+11. Click on **Deploy**
+12. Reload the Spreadsheet in the browser (the *script editor* will close automatically as a result)
+13. Check that a new menu entry (**Localization**) appeared in the toolbar
 
 ## Constraints
 
 #### Sheet
-* The first sheet must contain the keys and segments
+* The first sheet must contain the keys and translations
 
 #### Keys
 * Cannot be empty
@@ -59,12 +61,12 @@ Easy localization management tool using **Google Spreadsheets**.
 * Must be unique
 * The header can have any text
 
-#### Segments
+#### Translations
 * Can be empty (i.e. untranslated)
 * Headers must have the following pattern: `Name (locale)`. For example: `English (en)`
 
 #### Parameters
-Parameters inside of segments must be declared as `{index$format}`, where:
+Parameters inside of translations must be declared as `{index$format}`, where:
 * `index`: the position of the parameter in the text (starting from 1)
 * `format`: the format of the parameter
 
@@ -104,9 +106,16 @@ Formats available:
 * `yaml`
 * `xliff`
 
+## Statistics
+
+The tool can gether some general statistics about the content. To access it, click on **Localization ⟶ Info**. The table shows 2 values for each language:
+* **Translated:** A cell counts as translated if it's not empty
+* **Validated:** A cell counts as validated if its background color is different than `#ffffff`
+
+It's recommended to assign a background color to a non validated translation to keep track of them
+
 ## Best practices
 * Use a separate spreadsheet per project
-* Change the background color of a cell to indicate if the segment has been translated or not
 * Limit the access to columns only to users that should edit them
 
 ## TODO

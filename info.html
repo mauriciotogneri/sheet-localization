@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target='_top'>
+    <style>
+      html *
+      {
+        font-family: Arial;
+      }
+      
+      table
+      {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th
+      {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 10px;
+      }
+
+      th
+      {
+        background-color: #e0e0e0;
+      }
+
+      tr:nth-child(odd)
+      {
+        background-color: #f5f5f5;
+      }
+    </style>
+    <script>
+      
+      function onInfoLoaded(info)
+      {
+        const token = document.getElementById('token')
+        token.innerHTML = info.token
+        
+        const url = document.getElementById('url')
+        url.innerHTML = info.url
+        
+        const table = document.getElementById('statistics')
+        
+        for (var i=0; i < info.statistics.length; i++)
+        {
+          var data = info.statistics[i]
+          var translated = ((data.translated / data.total) * 100).toFixed(0) + '%'
+          var validated = ((data.validated / data.total) * 100).toFixed(0) + '%'
+          
+          var tr = document.createElement('tr')
+          
+          var tdLanguage = document.createElement('td')
+          tdLanguage.appendChild(document.createTextNode(data.language.name))
+          tr.appendChild(tdLanguage)
+          
+          var tdTranslated = document.createElement('td')
+          tdTranslated.appendChild(document.createTextNode(translated))
+          tr.appendChild(tdTranslated)
+          
+          var tdValidated = document.createElement('td')
+          tdValidated.appendChild(document.createTextNode(validated))
+          tr.appendChild(tdValidated)
+          
+          table.appendChild(tr)
+        }
+      }
+    
+      function onFailure(error)
+      {
+        const div = document.getElementById('output')
+        div.innerHTML = 'ERROR: ' + error.message
+      }
+
+      google.script.run
+        .withSuccessHandler(onInfoLoaded)
+        .withFailureHandler(onFailure)
+        .getInfo()
+        
+    </script>
+  </head>
+  <body>
+    <b>Token:</b> <span id='token'></span>
+    <br/>
+    <br/>
+    
+    <b>URL:</b> <span id='url'></span>
+    <br/>
+    <br/>
+    
+    <table id='statistics'>
+      <tr>
+        <th>Language</th>
+        <th>Translated</th>
+        <th>Validated</th>
+      </tr>
+    </table>
+    
+    <br/>
+    <div id='output'></div>
+  </body>
+</html>

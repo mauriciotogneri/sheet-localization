@@ -9,6 +9,7 @@
       }
     </style>
     <script>
+    
       function onImport()
       {
         const locale  = document.getElementById('locale')
@@ -42,12 +43,6 @@
       {
         google.script.host.close()
       }
-    
-      function onFailure(error)
-      {
-        const div = document.getElementById('output')
-        div.innerHTML = 'ERROR: ' + error.message
-      }
       
       function onLanguagesLoaded(languages)
       {
@@ -79,6 +74,12 @@
           
           select.appendChild(option)
         }
+      }
+    
+      function onFailure(error)
+      {
+        const div = document.getElementById('output')
+        div.innerHTML = 'ERROR: ' + error.message
       }
 
       google.script.run

@@ -5,7 +5,7 @@ function onOpen()
 {
   SpreadsheetApp.getUi().createMenu('Localization')
     .addItem('Import', 'showImportDialog')
-    .addItem('Info', 'showInfo')
+    .addItem('Info', 'showInfoDialog')
     .addToUi()
 }
 
@@ -16,6 +16,15 @@ function showImportDialog()
     .evaluate()
   
   SpreadsheetApp.getUi().showModalDialog(output, 'Import')
+}
+
+function showInfoDialog()
+{
+  const output = HtmlService
+    .createTemplateFromFile('info')
+    .evaluate()
+  
+  SpreadsheetApp.getUi().showModalDialog(output, 'Info')
 }
 
 function performImport(languageIndex, providerIndex, content, replace)
@@ -29,10 +38,54 @@ function performImport(languageIndex, providerIndex, content, replace)
   return true
 }
 
-function showInfo()
+function getInfo()
 {
-  const ui = SpreadsheetApp.getUi()
-  ui.alert('Info', 'Token: ' + getToken() + '\n\nURL: ' + ScriptApp.getService().getUrl(), ui.ButtonSet.OK)
+  const sheet = getSheet()
+  const rows = sheet.getMaxRows()
+  const languages = getAvailableLanguages()
+  const statistics = []
+  
+  for (var index in languages)
+  {
+    var language = languages[index]
+    var col = language.columnIndex
+    
+    var total = 0
+    var translated = 0
+    var validated = 0
+    
+    for (var i = 2; i <= rows; i++)
+    {
+      var cell = sheet.getRange(i, col)
+      var value = cell.getValue().toString()
+      var background = cell.getBackground()
+      
+      if (value != '')
+      {
+        translated++
+      }
+      
+      if (background == '#ffffff')
+      {
+        validated++
+      }
+      
+      total++
+    }
+    
+    statistics.push({
+      language: language,
+      translated: translated,
+      validated: validated,
+      total: total  
+    })
+  }
+  
+  return {
+    token: getToken(),
+    url: ScriptApp.getService().getUrl(),
+    statistics: statistics
+  }
 }
 
 // =========================================== EXPORT =========================================== \\
