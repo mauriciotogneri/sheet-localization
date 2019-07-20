@@ -88,6 +88,15 @@ function getInfo()
   }
 }
 
+function testImport()
+{
+  const provider = getProvider('php')
+  const content  = "<?php\n$lang['hello.world'] = 'Hello, world!';\n$lang['welcome'] = 'Welcome\'s, %1$s!';\n?>"
+  
+  const result = provider.import(content)
+  Logger.log(result)
+}
+
 // =========================================== EXPORT =========================================== \\
 
 function doGet(request)
@@ -108,6 +117,15 @@ function doGet(request)
   
     return output
   }
+}
+
+function testExport()
+{
+  const language = getLanguage('en')
+  const provider = getProvider('php')
+  
+  const result = provider.export(language.export(), language.locale)
+  Logger.log(result)
 }
 
 // =========================================== LANGUAGE =========================================== \\
@@ -446,6 +464,66 @@ function XliffProvider()
   }
 }
 
+// =========================================== PHP =========================================== \\
+
+function PhpProvider()
+{
+  this.name = 'PHP'
+  this.mimeType = ContentService.MimeType.TEXT
+  
+  this.fileName = function(locale)
+  {
+    return locale + '.php'
+  }
+  
+  this.import = function(input)
+  {
+    const result = {}
+    const lines = input.split('\n')
+    const REGEX = /.+\['(.+)'\] *= *'(.+)';/
+    
+    for (var i = 0; i < lines.length; i++)
+    {
+      var line = lines[i].trim()
+
+      if ((line != '') && !line.startsWith('<?php') && !line.startsWith('?>'))
+      {
+        var match = null
+        
+        if (match = REGEX.exec(line))
+        {
+          var key   = match[1]
+          var value = match[2]
+
+          result[key] = value 
+        }
+	  }
+    }
+    
+    return result
+  }
+  
+  this.export = function(json, locale)
+  {
+    var result = '<?php\n'
+    
+    for (var key in json)
+    {
+      if (json.hasOwnProperty(key))
+      {
+        var value = transformParametersDefault(json[key])
+        value = value.replace(/\'/, "\\'")
+        
+        result += "\t$lang['" + key + "'] = '" + value + "';\n"
+      }
+    }
+    
+    result += '?>'
+    
+    return result
+  }
+}
+
 // =========================================== UTILS =========================================== \\
 
 function getProvider(format)
@@ -469,6 +547,10 @@ function getProvider(format)
   else if (format == 'xliff')
   {
     return new XliffProvider()
+  }
+  else if (format == 'php')
+  {
+    return new PhpProvider()
   }
   else
   {
@@ -503,7 +585,8 @@ function getAvailableProviders()
       new iOSProvider(),
       new JsonProvider(),
       new YamlProvider(),
-      new XliffProvider()
+      new XliffProvider(),
+      new PhpProvider()
     ]
 }
 

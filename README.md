@@ -26,6 +26,7 @@ Easy localization management tool using **Google Spreadsheets**.
 * JSON (plain)
 * YAML (plain)
 * XLIFF (v1.2)
+* PHP Array
 
 ## Installation
 1. Create an empty [Google Spreadsheet](https://www.google.com/sheets/about)
@@ -50,10 +51,25 @@ Easy localization management tool using **Google Spreadsheets**.
 12. Reload the Spreadsheet in the browser (the *script editor* will close automatically as a result)
 13. Check that a new menu entry (**Localization**) appeared in the toolbar
 
+## Upgrade
+If you already have the tool and you want to upgrade it to the latest version:
+1. Open the script editor: **Tools ⟶ Script editor**
+2. Replace the contents of the following files:
+	* [script.gs](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/script.gs)
+	* [import.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/import.html)
+	* [info.html](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/info.html)
+3. Deploy the tool by clicking on **Publish ⟶ Deploy as web app…** in the *script editor*
+4. In the form, select the following values:
+	- **Project version**: *New*
+	- **Execute the app as**: *Me*
+	- **Who has access to the app**: *Anyone, even anonymous*
+5. Click on **Deploy**
+
 ## Constraints
 
 #### Sheet
 * The first sheet must contain the keys and translations
+* The tool can use one spreadsheet per project
 
 #### Keys
 * Cannot be empty
@@ -94,7 +110,9 @@ Formats available:
 
 ## Export
 
-1. Download the file [pull.sh](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/pull.sh)
+1. Download the script to pull the localization files
+	* Linux/Mac: [pull.sh](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/pull.sh)
+	* Windows: [pull.bat](https://raw.githubusercontent.com/mauriciotogneri/sheet-localization/master/pull.bat)
 2. Change the values of the variables `LOCALE` and `FORMAT` to adapt to your needs
 3. Click on **Localization ⟶ Info** to obtain the values of `URL` and `TOKEN`
 4. Run the script to download the localization file
@@ -105,6 +123,7 @@ Formats available:
 * `json`
 * `yaml`
 * `xliff`
+* `php`
 
 ## Statistics
 
@@ -115,14 +134,12 @@ The tool can gather some general statistics about the content. To access it, cli
 It's recommended to assign a background color to a non validated translation to keep track of them
 
 ## Best practices
-* Use a separate spreadsheet per project
 * Limit the access to columns only to users that should edit them
 
 ## TODO
 * Support more formats:
 	- INI
 	- Properties
-	- PHP array
 	- Angular translate
 	- Gettext
 	- Twine
