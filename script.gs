@@ -262,197 +262,213 @@ function AndroidProvider()
 
 // =========================================== SWIFT =========================================== \\
 
-function SwiftProvider() {
+function SwiftProvider()
+{
+  function escape(name)
+  {
+    const reserved = [
+      'class',
+      'break',
+      'as',
+      'associativity',
+      'deinit',
+      'case',
+      'dynamicType',
+      'convenience',
+      'enum',
+      'continue',
+      'false',
+      'dynamic',
+      'extension',
+      'default',
+      'is',
+      'didSet',
+      'func',
+      'do',
+      'nil',
+      'final',
+      'import',
+      'else',
+      'self',
+      'get',
+      'init',
+      'fallthrough',
+      'Self',
+      'infix',
+      'internal',
+      'for',
+      'super',
+      'inout',
+      'let',
+      'if',
+      'true',
+      'lazy',
+      'operator',
+      'in',
+      'left',
+      'private',
+      'return',
+      'mutating',
+      'protocol',
+      'switch',
+      'none',
+      'public',
+      'where',
+      'nonmutating',
+      'static',
+      'while',
+      'optional',
+      'struct',
+      'override',
+      'subscript',
+      'postfix',
+      'typealias',
+      'precedence',
+      'var',
+      'prefix',
+      'protocol',
+      'required',
+      'right',
+      'set',
+      'type',
+      'Type',
+      'unowned',
+      'weak'
+    ]
+    
+    if (reserved.indexOf(name) !== -1)
+    {
+      return '`' + name + '`'
+    }
+    else
+    {
+      return name
+    }
+  }
+    
+  function tree(json)
+  {
+    var tree = { children: {} }
+    
+    for (var key in json)
+    {
+      var parts = key.split('.')
+      var node = tree
 
-    function escape(name) {
-        const reserved = [
-            'class',
-            'break',
-            'as',
-            'associativity',
-            'deinit',
-            'case',
-            'dynamicType',
-            'convenience',
-            'enum',
-            'continue',
-            'false',
-            'dynamic',
-            'extension',
-            'default',
-            'is',
-            'didSet',
-            'func',
-            'do',
-            'nil',
-            'final',
-            'import',
-            'else',
-            'self',
-            'get',
-            'init',
-            'fallthrough',
-            'Self',
-            'infix',
-            'internal',
-            'for',
-            'super',
-            'inout',
-            'let',
-            'if',
-            'true',
-            'lazy',
-            'operator',
-            'in',
-            'left',
-            'private',
-            'return',
-            'mutating',
-            'protocol',
-            'switch',
-            'none',
-            'public',
-            'where',
-            'nonmutating',
-            'static',
-            'while',
-            'optional',
-            'struct',
-            'override',
-            'subscript',
-            'postfix',
-            'typealias',
-            'precedence',
-            'var',
-            'prefix',
-            'protocol',
-            'required',
-            'right',
-            'set',
-            'type',
-            'Type',
-            'unowned',
-            'weak'
-        ];
-    
-        if (reserved.indexOf(name) !== -1) {
-            return '`' + name + '`'
-        } else {  
-            return name
-        }
-    }
-    
-    function tree(json) {
-    
-        var tree = { children: {} }
-    
-        for (var key in json) {
-            var parts = key.split('.')
-            var node = tree
-            while (parts.length !== 0) {
-                var prefix = parts.shift()
-                node.children = node.children || {}
-                node.children[prefix] =  node.children[prefix] || {}
+      while (parts.length !== 0)
+      {
+        var prefix = parts.shift()
+        node.children = node.children || {}
+        node.children[prefix] =  node.children[prefix] || {}
                 
-                if (parts.length === 0) { 
-                    node.children[prefix].key = key
-                    node.children[prefix].value = json[key]
-                    node.children[prefix].name = prefix
-                } else {
-                    node = node.children[prefix]
-                    node.name = prefix
-                } 
-                
-            }
+        if (parts.length === 0)
+        {
+          node.children[prefix].key = key
+          node.children[prefix].value = json[key]
+          node.children[prefix].name = prefix
         }
-    
-        return tree;
+        else
+        {
+          node = node.children[prefix]
+          node.name = prefix
+        }
+      }
     }
-    
-    function structs(node, tab) {
-        var content = '';
         
-        const children = node.children
-        const key = node.key
-        const value = node.value
-        const name = node.name
+    return tree
+  }
     
-        if (children) {
-            content += '\n' + tab + 'struct ' + escape(name.slice(0,1).toUpperCase() + name.slice(1)) + ' {'
+  function structs(node, tab)
+  {
+    var content = ''
+        
+    const children = node.children
+    const key = node.key
+    const value = node.value
+    const name = node.name
     
-            Object.keys(children).forEach(function (child) {
-                content += structs(children[child], tab + '    ')
-            })
+    if (children)
+    {
+      content += '\n' + tab + 'struct ' + escape(name.slice(0,1).toUpperCase() + name.slice(1)) + ' {'
     
-            content += tab + '}\n'
-        }
-    
-        if (key && name) {
-            content += '\n' + tab + '/// ' + value + '\n'
-            content += tab + 'static var ' + escape(name) + ': String { return NSLocalizedString("' + key + '", value: "' + value + '", comment: "' + value + '") }\n'
-        }
-    
-        return content
+      Object.keys(children).forEach(function (child) {
+        content += structs(children[child], tab + '    ')
+      })
+      
+      content += tab + '}\n'
     }
     
-    function swift(tree) {
-        var content = 'import Foundation\n\n'
-        content += '//swiftlint:disable nesting\n'
-        content += '//swiftlint:disable file_length\n\n'
-        content += 'extension String {'
-    
-        Object.keys(tree.children).forEach(function (child) { 
-            content += structs(tree.children[child], '    ')
-        });
-    
-        content += '}\n'
-    
-        return content
+    if (key && name)
+    {
+      content += '\n' + tab + '/// ' + value + '\n'
+      content += tab + 'static var ' + escape(name) + ': String { return NSLocalizedString("' + key + '", value: "' + value + '", comment: "' + value + '") }\n'
     }
+    
+    return content
+  }
+    
+  function swift(tree)
+  {
+    var content = 'import Foundation\n\n'
+    content += '//swiftlint:disable nesting\n'
+    content += '//swiftlint:disable file_length\n\n'
+    content += 'extension String {'
+    
+    Object.keys(tree.children).forEach(function (child) { 
+      content += structs(tree.children[child], '    ')
+    })
+    
+    content += '}\n'
+    
+    return content
+  }
 
-    this.name = 'Swift'
+  this.name = 'Swift'
 
-    this.mimeType = ContentService.MimeType.TEXT
+  this.mimeType = ContentService.MimeType.TEXT
 
-    this.fileName = function() {
-        return 'Strings.swift'
-    }
+  this.fileName = function()
+  {
+    return 'Strings.swift'
+  }
 
-    this.export = function(json, defaultLocale) {
-        var root = tree(json)
-        return swift(root)
-    }
+  this.export = function(json, defaultLocale)
+  {
+    var root = tree(json)
+
+    return swift(root)
+  }
 }
 
 // =========================================== IOS =========================================== \\
 
 function iOSProvider()
 {
-  this.name = 'iOS'
-  this.mimeType = ContentService.MimeType.TEXT
+    this.name = 'iOS'
+    this.mimeType = ContentService.MimeType.TEXT
   
-  this.fileName = function(locale)
-  {
-    return 'Localizable-' + locale + '.strings'
-  }
-  
-  this.import = function(input)
-  {
-    const result = {}
-    const lines = input.split('\n')
-    
-    for (var i = 0; i < lines.length; i++)
+    this.fileName = function(locale)
     {
-      var line = lines[i].trim()
-
-      if ((line != '') && (!line.startsWith('/*')) && line.startsWith('"'))
-      {
-        var parts = line.split('=')
-    var key   = parts[0].trim().substr(1).slice(0, -1)
-    var value = parts[1].trim().substr(1).slice(0, -2)
-
-    result[key] = value
+        return 'Localizable-' + locale + '.strings'
     }
+  
+    this.import = function(input)
+    {
+      const result = {}
+      const lines = input.split('\n')
+    
+      for (var i = 0; i < lines.length; i++)
+      {
+        var line = lines[i].trim()
+
+        if ((line != '') && (!line.startsWith('/*')) && line.startsWith('"'))
+        {
+          var parts = line.split('=')
+          var key   = parts[0].trim().substr(1).slice(0, -1)
+          var value = parts[1].trim().substr(1).slice(0, -2)
+
+          result[key] = value
+      }
     }
     
     return result
@@ -534,11 +550,11 @@ function YamlProvider()
       if ((line != '') && (!line.startsWith('#')))
       {
         var parts = line.split(':')
-    var key   = parts[0].trim()
-    var value = parts[1].trim()
+        var key   = parts[0].trim()
+        var value = parts[1].trim()
 
-    result[key] = value
-    }
+        result[key] = value
+      }
     }
     
     return result
@@ -772,7 +788,6 @@ function getExportProviders()
     })
 }
 
-
 function getLanguage(locale)
 {
   const languages = getAvailableLanguages()
@@ -827,7 +842,8 @@ function getValues()
   return getSheet().getDataRange().getValues()
 }
 
-if (!String.prototype.startsWith) {
+if (!String.prototype.startsWith)
+{
     Object.defineProperty(String.prototype, 'startsWith', {
         value: function(search, pos) {
             pos = !pos || pos < 0 ? 0 : + pos
