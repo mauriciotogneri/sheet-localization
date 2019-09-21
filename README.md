@@ -23,6 +23,7 @@ Easy localization management tool using **Google Spreadsheets**.
 ## Formats supported
 * Android (.xml)
 * iOS (.strings)
+* iOS (.swift)
 * JSON (plain)
 * YAML (plain)
 * XLIFF (v1.2)
@@ -120,6 +121,7 @@ Formats available:
 Formats available:
 * `android`
 * `ios`
+* `swift`
 * `json`
 * `yaml`
 * `xliff`
